@@ -149,12 +149,34 @@ int ULA(int op_code, int operando_1, int operando_2){
 int banco_de_registradores(char *registrador, int *registradores) {
     if (strcmp(registrador, "zero") == 0) {
         return registradores[0];
-    } else if (strncmp(registrador, "t", 1) == 0) {
+    } 
+    else if(strcmp(registrador, "at") == 0){
+        return registradores[1];
+    }
+    else if(strncmp(registrador, "v", 1) == 0){
+        int index;
+        sscanf(registrador, "v%d", &index);
+        if(index >= 0 && index<=1){
+            return registradores[2+index];
+        }
+    }
+    else if(strncmp(registrador, "a", 1) == 0){
+        int index;
+        sscanf(registrador, "a%d", &index);
+        if(index >= 0 && index<=3){
+            return registradores[4+index];
+        }
+    }
+    else if (strncmp(registrador, "t", 1) == 0) {
         int index;
         sscanf(registrador, "t%d", &index);
-        if (index >= 0 && index <= 9) {
+        if (index >= 0 && index <= 7) {
             return registradores[8 + index];
-        } else {
+        } 
+        else if(index == 8 && index == 9){
+            return registradores[16 + index];
+        }
+        else {
             printf("Registrador inválido: %s\n", registrador);
             return -1;
         }
@@ -167,8 +189,18 @@ int banco_de_registradores(char *registrador, int *registradores) {
             printf("Registrador inválido: %s\n", registrador);
             return -1;
         }
+    } else if (strncmp(registrador, "k", 1) == 0) {
+        int index;
+        sscanf(registrador, "k%d", &index);
+        if(index == 0 && index == 1){
+            return registrador[26 + index];
+        }
+    } else if (strcmp(registrador, "gp") == 0) {
+        return registradores[28]; 
     } else if (strcmp(registrador, "sp") == 0) {
         return registradores[29];
+    } else if (strcmp(registrador, "fp") == 0) {
+        return registradores[30]; 
     } else if (strcmp(registrador, "ra") == 0) {
         return registradores[31];
     } else {
